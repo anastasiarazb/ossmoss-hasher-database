@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int calc_overlap (char* superstring, char* nextstring)
+{
+    int first_i;
+    int second_i;
+    int first_l = strlen(superstring);
+    int overlap = 0;
+    int max_overlap = -1;
+    for (first_i = 0; first_i < first_l; first_i++)
+    {
+        second_i = 0;
+        while (superstring[first_i] && nextstring[second_i])
+        {
+            if (superstring[first_i] != nextstring[second_i])
+            {
+                overlap = 0;
+                break;
+            }
+            else
+            {
+                overlap++;
+                first_i++;
+                second_i++;
+            }
+        }
+        if (max_overlap < overlap)
+        {
+            max_overlap = overlap;
+        }
+    }
+    return max_overlap;
+}
+
+void aggregate_superstring(char* superstring, char* nextstring, int over)
+{
+    int i;
+    int j;
+    for (i = strlen(superstring), j = over; !nextstring[j]; i++, j++)
+    {
+        superstring[i] = nextstring[j];
+    }
+    superstring[i] = '\0';
+    nextstring[0] = '\0';
+}
+
+int main()
+{
+        int i;
+        int n;
+        int k;
+        int j;
+        int result;
+        scanf ("%d", &n);
+        char** s = (char**)malloc(n*sizeof(char*));
+        for (i = 0; i < n; i++)
+        {
+                s[i] = (char*)malloc(256*sizeof(char));
+                scanf ("%s", s[i]);
+        }
+
+        char* superstring;
+        for (k = 0; k < n - 1; k++)
+        {
+            int max = -1;
+            int max_i = -1;
+            int max_j = -1;
+
+            for (i = 0 ; i < n; i++)
+            {
+                for (j = 0; j < n; j++)
+                {
+                    if (i != j)
+                    {
+                        int over = calc_overlap(s[i], s[j]);
+                        if (max < over)
+                        {
+                            max = over;
+                            max_i = i;
+                            max_j = j;
+                        }
+                    }
+                }
+            }
+
+            aggregate_superstring (s[max_i], s[max_j], max);
+            superstring = s[max_i];
+        }
+
+        result = strlen(superstring);
+        for (i = 0; i < n; i++)
+        {
+                free(s[i]);
+        }
+
+        free(s);
+        printf("%d", result);
+        return 0;
+}

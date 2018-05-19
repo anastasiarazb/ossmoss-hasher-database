@@ -1,0 +1,26 @@
+#include <stdio.h>
+#define N 239
+
+int wcount(char*);
+
+int main(int argc, char **argv) {
+    char str[N] = { 0 };
+    gets(str);
+    printf("%d", wcount(str));
+    return 0;
+}
+
+int wcount(char *s) {
+    int flagin, count, i;
+    flagin = count = i = 0;
+    while(s[i] != '\n') {
+        while(s[i] != ' ') {
+            i++;
+            flagin++;
+        }
+        count++;
+        if (!flagin) i++;
+    }
+    return count;
+}
+

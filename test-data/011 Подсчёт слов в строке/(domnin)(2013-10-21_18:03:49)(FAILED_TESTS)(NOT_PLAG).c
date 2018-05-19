@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int wcount(char *s);
+int main()
+{
+        int i;
+	char temp, str[256];//Метод тыка,для длины..
+	gets(str);
+	i = wcount(str);
+	printf("%d", i);
+	getchar(); getchar(); getchar();
+	return 0;
+}
+int wcount(char *s)
+{
+	int x, count, l;
+	x = 0;
+	count = 1;
+	l = strlen(s) - 1;
+	if (l == 0) return 0;
+	while (x < l){
+		if ((s[x] == ' ')&&(s[x+1] != ' ')) count += 1;
+			++x;
+	}
+	x = 0;
+	if (count == 1)
+	while (x <= l){
+		if (s[x] == ' ') count = 0;
+		else {
+			count = 1;
+			break;
+		}
+		++x;
+	}
+	return count;
+}
